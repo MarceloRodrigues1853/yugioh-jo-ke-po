@@ -5,38 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YUGIOH-JO-KEN-PO</title>
 
-    <!-- stilos -->
+    <!-- Estilos -->
     <link rel="stylesheet" href="./src/styles/main.css" />
 
-    <!-- script -->
+    <!-- Script -->
     <script src="./src/scripts/engine.js" defer></script>
   </head>
 
   <body>
+    <!-- Container do vídeo de fundo -->
     <div class="bg-video">
       <video class="video" autoplay loop muted>
         <source src="./src/assets/video/yugi.mp4" type="video/mp4" />
       </video>
     </div>
 
+    <!-- Container principal -->
     <div class="container">
+      <!-- Container esquerdo para detalhes do jogador e pontuação -->
       <div class="container__left framed-golden-2">
+        <!-- Caixa de pontuação do jogador -->
         <div class="score_box frame">
-            <span id="score_points">Win: 0 | Lose: 0 </span>
+          <span id="score_points">Vitórias: 0 | Derrotas: 0</span>
         </div>
 
+        <!-- Avatar do jogador -->
         <div class="menu_avatar">
-            <img id="card-image">
+          <img id="card-image" alt="Avatar do jogador" />
         </div>
 
+        <!-- Detalhes do card do jogador -->
         <div class="card_details frame">
-            <p id="card-name">a</p>
-            <p id="card-type">a</p>
+          <p id="card-name">a</p>
+          <p id="card-type">a</p>
         </div>
       </div>
 
+      <!-- Container direito para cartas do computador e interface do jogo -->
       <div class="container__right">
-        <div class="card-box__container"></div>
+        <div class="card-box__container">
+          <!-- Caixa de cartas do computador -->
+          <div class="card-box framed" id="computer-cards"></div>
+
+          <!-- Interface do jogo com cartas do jogador e do computador -->
+          <div class="card-versus__container">
+            <!-- Seção superior com cartas do jogador e do computador no campo -->
+            <div class="versus-top">
+              <!-- Carta do jogador no campo -->
+              <div class="card-infield">
+                <img id="player-field-card" height="180px" width="125px" />
+              </div>
+
+              <!-- Ícone do Milênio -->
+              <img height="100px" src="./src/assets/icons/millenium2.png" alt="Ícone do Milênio" />
+
+              <!-- Carta do computador no campo -->
+              <div class="card-infield">
+                <img id="computer-field-card" height="180px" width="125px"/>
+              </div>
+            </div>
+
+            <!-- Seção inferior com um botão para resetar o duelo -->
+            <div class="versus-bottom">
+              <button id="next-duel" class="rpgui-button" onclick="resetDuel()">
+                GANHOU
+              </button>
+            </div>
+          </div>
+
+          <!-- Caixa de cartas do jogador -->
+          <div class="card-box framed" id="player-cards"></div>
+        </div>
       </div>
     </div>
   </body>
