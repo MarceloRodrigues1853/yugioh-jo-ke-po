@@ -1,90 +1,90 @@
 /**
-* Styling for buttons
+* Estilo para botões
 */
 
-/* button style */
+/* Estilo do botão */
 .rpgui-button {
-  /* hide button default stuff */
+  /* Ocultar configurações padrão do botão */
   background-color: Transparent;
   background-repeat: no-repeat;
   border: none;
   overflow: hidden;
   outline: none;
 
-  /* background */
+  /* Fundo */
   background: url("../assets/rpg/button.png") no-repeat no-repeat;
   background-clip: padding-box;
   background-origin: padding-box;
   background-position: center;
   background-size: 100% 100%;
 
-  /* font size */
+  /* Tamanho da fonte */
   font-size: 1em;
 
-  /* default size and display */
+  /* Tamanho e exibição padrão */
   max-width: 100%;
   min-width: 140px;
   height: 60px;
   display: inline-block;
 
-  /* padding */
+  /* Preenchimento */
   padding-left: 35px;
   padding-right: 35px;
 }
 
-/* button hover */
+/* Hover do botão */
 .rpgui-button.hover,
 .rpgui-button:hover {
   background-image: url("../assets/rpg/button-hover.png");
 }
 
-/* button clicked */
+/* Botão pressionado */
 .rpgui-button.down,
 .rpgui-button:active {
   background-image: url("../assets/rpg/button-down.png");
 }
 
-/* golden button stuff */
+/* Estilo do botão dourado */
 .rpgui-button.golden p {
   display: inline-block;
 }
 
-/* golden button style */
+/* Estilo do botão dourado */
 .rpgui-button.golden {
-  /* hide button default stuff */
+  /* Ocultar configurações padrão do botão */
   background-color: Transparent;
   background-repeat: no-repeat;
   border: none;
   overflow: hidden;
   outline: none;
 
-  /* background */
+  /* Fundo */
   background: url("../assets/rpg/button-golden.png") no-repeat no-repeat;
   background-clip: padding-box;
   background-origin: padding-box;
   background-position: center;
   background-size: 100% 80%;
 
-  /* default size and display */
+  /* Tamanho e exibição padrão */
   max-width: 100%;
   min-width: 140px;
   height: 60px;
   display: inline-block;
 
-  /* padding */
+  /* Preenchimento */
   padding-top: 5px;
   padding-left: 35px;
   padding-right: 35px;
   overflow: visible;
 }
 
-/* button hover */
+/* Hover do botão dourado */
 .rpgui-button.golden.hover,
 .rpgui-button.golden:hover {
   background-image: url("../assets/rpg/button-golden-hover.png");
 }
 
-/* button clicked */
+/* Botão dourado pressionado */
 .rpgui-button.golden.down,
 .rpgui-button.golden:active {
   background-image: url("../assets/rpg/button-golden-down.png");
@@ -97,8 +97,7 @@
   width: 34px;
   display: block;
   height: 110%;
-  background: transparent url("../assets/rpg/button-golden-left.png") no-repeat
-    right center;
+  background: transparent url("../assets/rpg/button-golden-left.png") no-repeat right center;
   background-size: 100% 100%;
   margin: 0 0 0 0;
   left: 0px;
@@ -113,8 +112,7 @@
   content: "";
   width: 34px;
   height: 110%;
-  background: transparent url("../assets/rpg/button-golden-right.png") no-repeat
-    left center;
+  background: transparent url("../assets/rpg/button-golden-right.png") no-repeat left center;
   background-size: 100% 100%;
   margin: 0 0 0 0;
   right: 0px;
