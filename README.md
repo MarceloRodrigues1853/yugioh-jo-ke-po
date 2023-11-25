@@ -22,7 +22,7 @@ Este projeto é parte do Desafio de Projeto da trilha de Desenvolvimento de Jogo
 
 ## Como Jogar
 
-1. Abra o arquivo index.html em um navegador web compatível.
+1. Abra o link: https://marcelorodrigues1853.github.io/yugioh-jo-ken-po/ em um navegador web compatível.
 2. Inicie o jogo clicando em uma carta.
 3. Escolha sua carta para competir contra a carta do computador.
 4. Descubra o resultado do duelo e acumule pontos.
