@@ -35,4 +35,6 @@ Este projeto é parte do Desafio de Projeto da trilha de Desenvolvimento de Jogo
 * Melhoria na inteligência artificial do computador.
 * Personalização do avatar do jogador.
 * Adição de animações e efeitos sonoros mais complexos.
-* Sinta-se à vontade para contribuir com melhorias ou personalizações neste projeto. Bom jogo! 🎮
+
+  
+###Sinta-se à vontade para contribuir com melhorias ou personalizações neste projeto. Bom jogo! 🎮
