@@ -1,245 +1,242 @@
 // Estado da aplicação
-const estado = {
-  pontuacao: {
-    pontuacaoJogador: 0,
-    pontuacaoComputador: 0,
-    caixaPontuacao: document.getElementById("score_points"),
+const state = {
+  score: {
+    playerScore: 0,
+    computerScore: 0,
+    scoreBox: document.getElementById("score_points"),
   },
-  spritesCarta: {
+  cardSprites: {
     avatar: document.getElementById("card-image"),
-    nome: document.getElementById("card-name"),
-    tipo: document.getElementById("card-type"),
+    name: document.getElementById("card-name"),
+    type: document.getElementById("card-type"),
   },
-  cartasCampo: {
-    jogador: document.getElementById("player-field-card"),
-    computador: document.getElementById("computer-field-card"),
+  fieldCards: {
+    player: document.getElementById("player-field-card"),
+    computer: document.getElementById("computer-field-card"),
   },
-  ladosJogadores: {
-    jogador1: "player-cards",
-    caixaJogador1: document.querySelector("#player-cards"),
-    computador: "computer-cards",
-    caixaComputador: document.querySelector("#computer-cards"),
+  playersSides: {
+    player1: "player-cards",
+    player1BOX: document.querySelector("#player-cards"),
+    computer: "computer-cards",
+    computerBOX: document.querySelector("#computer-cards"),
   },
-  acoes: {
-    botao: document.getElementById("next-duel"),
+  actions: {
+    button: document.getElementById("next-duel"),
   },
 };
 
-// Lados dos jogadores
-const ladosJogadores = {
-  jogador1: "player-cards",
-  computador: "computer-cards",
+// Sides dos jogadores
+const playersSides = {
+  player1: "player-cards",
+  computer: "computer-cards",
 };
 
 // Caminho para as imagens
-const caminhoImagens = "./src/assets/icons/";
+const pathImages = "./src/assets/icons/";
 
 // Dados das cartas
-const dadosCartas = [
+const cardData = [
   {
     id: 0,
-    nome: "Dragão Branco de Olhos Azuis",
-    tipo: "Papel",
-    img: `${caminhoImagens}dragon.png`,
-    venceDe: [1],
-    perdeDe: [2],
+    name: "Dragão Branco Olhos Azuis",
+    type: "Papel",
+    img: `${pathImages}dragon.png`,
+    winOf: [1],
+    loseOf: [2],
   },
   {
     id: 1,
-    nome: "Mago Negro",
-    tipo: "Pedra",
-    img: `${caminhoImagens}magician.png`,
-    venceDe: [2],
-    perdeDe: [0],
+    name: "Mago Negro",
+    type: "Pedra",
+    img: `${pathImages}magician.png`,
+    winOf: [2],
+    loseOf: [0],
   },
   {
     id: 2,
-    nome: "Exodia",
-    tipo: "Tesoura",
-    img: `${caminhoImagens}exodia.png`,
-    venceDe: [0],
-    perdeDe: [1],
+    name: "Exodia",
+    type: "Tesoura",
+    img: `${pathImages}exodia.png`,
+    winOf: [0],
+    loseOf: [1],
   },
 ];
 
 // Função para obter um ID aleatório
-async function obterIdAleatorio() {
-  const indiceAleatorio = Math.floor(Math.random() * dadosCartas.length);
-  return dadosCartas[indiceAleatorio].id;
+async function getRandomId() {
+  const randomIndex = Math.floor(Math.random() * cardData.length);
+  return cardData[randomIndex].id;
 }
 
 // Função para criar a imagem de uma carta
-async function criarImagemCarta(idCarta, ladoCampo) {
-  const imagemCarta = document.createElement("img");
-  imagemCarta.setAttribute("height", "100px");
-  imagemCarta.setAttribute("src", "./src/assets/icons/card-back.png");
-  imagemCarta.setAttribute("data-id", idCarta);
-  imagemCarta.classList.add("carta");
+async function createCardImage(idCard, fieldSide) {
+  const cardImage = document.createElement("img");
+  cardImage.setAttribute("height", "100px");
+  cardImage.setAttribute("src", "./src/assets/icons/card-back.png");
+  cardImage.setAttribute("data-id", idCard);
+  cardImage.classList.add("card");
 
   // Adiciona evento de clique apenas para o lado do jogador
-  if (ladoCampo === ladosJogadores.jogador1) {
+  if (fieldSide === playersSides.player1) {
     // Adiciona evento de mouseover para destacar a carta
-    imagemCarta.addEventListener("mouseover", () => {
-       desenharCartaSelecionada(idCarta);
+    cardImage.addEventListener("mouseover", () => {
+      drawSelectCard(idCard);
     });
 
-    imagemCarta.addEventListener("click", () => {
-      definirCartasCampo(imagemCarta.getAttribute("data-id"));
+    cardImage.addEventListener("click", () => {
+      setCardsField(cardImage.getAttribute("data-id"));
     });
   }
 
-  return imagemCarta;
+  return cardImage;
 }
 
 // Função para definir cartas no campo
-async function definirCartasCampo(idCarta) {
+async function setCardsField(cardId) {
   // Remove todas as cartas antes
-  await removerTodasImagensCartas();
+  await removeAllCardsImages();
 
-  let idCartaComputador = await obterIdAleatorio();
+  let computerCardId = await getRandomId();
 
-  await ocultarImagensCampos(true);
+  await hiddenCardsFieldsImages(true);
 
-  await ocultarDetalhesCartas();
+  await hiddenCardsdetails();
 
-  await desenharCartasNoCampo(idCarta, idCartaComputador);
+  await drawCardsInField(cardId, computerCardId);
 
-  let resultadoDuelo = await verificarResultadoDuelo(
-    idCarta,
-    idCartaComputador
-  );
+  let duelResults = await checkDuelResult(cardId, computerCardId);
 
-  await atualizarPontuacao();
+  await updateScore();
 
-  await desenharBotao(resultadoDuelo);
+  await drawButton(duelResults);
 }
 
 // Função para desenhar cartas no campo
-async function desenharCartasNoCampo(idCarta, idCartaComputador) {
-  estado.cartasCampo.jogador.src = dadosCartas[idCarta].img;
-  estado.cartasCampo.computador.src = dadosCartas[idCartaComputador].img;
+async function drawCardsInField(cardId, computerCardId) {
+  state.fieldCards.player.src = cardData[cardId].img;
+  state.fieldCards.computer.src = cardData[computerCardId].img;
 }
 
 // Função para ocultar imagens dos campos de cartas
-async function ocultarImagensCampos(valor) {
-  if (valor === true) {
-    estado.cartasCampo.jogador.style.display = "block";
-    estado.cartasCampo.computador.style.display = "block";
+async function hiddenCardsFieldsImages(value) {
+  if (value === true) {
+    state.fieldCards.player.style.display = "block";
+    state.fieldCards.computer.style.display = "block";
   }
 
-  if (valor === false) {
-    estado.cartasCampo.jogador.style.display = "none";
-    estado.cartasCampo.computador.style.display = "none";
+  if (value === false) {
+    state.fieldCards.player.style.display = "none";
+    state.fieldCards.computer.style.display = "none";
   }
 }
 
 // Função para ocultar detalhes das cartas
-async function ocultarDetalhesCartas() {
-  estado.spritesCarta.avatar.src = "";
-  estado.spritesCarta.nome.innerText = "";
-  estado.spritesCarta.tipo.innerText = "";
+async function hiddenCardsdetails() {
+  state.cardSprites.avatar.src = "";
+  state.cardSprites.name.innerText = "";
+  state.cardSprites.type.innerText = "";
 }
 
 // Função para atualizar a pontuação
-async function atualizarPontuacao() {
-  estado.pontuacao.caixaPontuacao.innerText = `Venceu: ${estado.pontuacao.pontuacaoJogador} Perdeu: ${estado.pontuacao.pontuacaoComputador}`;
+async function updateScore() {
+  state.score.scoreBox.innerText = `Venceu: ${state.score.playerScore} Perdeu: ${state.score.computerScore}`;
 }
 
 // Função para desenhar o botão
-async function desenharBotao(texto) {
-  estado.acoes.botao.innerText = texto.toUpperCase();
-  estado.acoes.botao.style.display = "block";
+async function drawButton(text) {
+  state.actions.button.innerText = text.toUpperCase();
+  state.actions.button.style.display = "block";
 }
 
 // Função para verificar o resultado do duelo
-async function verificarResultadoDuelo(idCartaJogador, idCartaComputador) {
-  let resultadoDuelo = "Empate";
-  let cartaJogador = dadosCartas[idCartaJogador];
+async function checkDuelResult(playerCardId, computerCardId) {
+  let duelResults = "Empate";
+  let playerCard = cardData[playerCardId];
 
-  if (cartaJogador.vitoriaDe.includes(idCartaComputador)) {
-    resultadoDuelo = "Venceu";
-    estado.pontuacao.pontuacaoJogador++;
+  if (playerCard.winOf.includes(computerCardId)) {
+    duelResults = "Venceu";
+    state.score.playerScore++;
   }
 
-  if (cartaJogador.derrotaDe.includes(idCartaComputador)) {
-    resultadoDuelo = "Perdeu";
-    estado.pontuacao.pontuacaoComputador++;
+  if (playerCard.loseOf.includes(computerCardId)) {
+    duelResults = "Perdeu";
+    state.score.computerScore++;
   }
-  await reproduzirAudio(resultadoDuelo);
+  await playAudio(duelResults);
 
-  return resultadoDuelo;
+  return duelResults;
 }
 
 // Função para remover todas as imagens de cartas
-async function removerTodasImagensCartas() {
-  let { caixaComputador, caixaJogador1 } = estado.ladosJogadores;
-  let elementosImagem = caixaComputador.querySelectorAll("img");
-  elementosImagem.forEach((img) => img.remove());
+async function removeAllCardsImages() {
+  let { computerBOX, player1BOX } = state.playersSides;
+  let imgElements = computerBOX.querySelectorAll("img");
+  imgElements.forEach((img) => img.remove());
 
-  elementosImagem = caixaJogador1.querySelectorAll("img");
-  elementosImagem.forEach((img) => img.remove());
+  imgElements = player1BOX.querySelectorAll("img");
+  imgElements.forEach((img) => img.remove());
 }
 
 /**
  * Atualiza as informações e a imagem da carta selecionada no estado da aplicação.
  * @param {number} index - O índice da carta no array de dados das cartas.
  */
-async function desenharSelecaoCarta(index) {
+async function drawSelectCard(index) {
   // Atualiza a imagem do avatar no estado com a imagem da carta selecionada
-  estado.spritesCarta.avatar.src = dadosCartas[index].img;
+  state.cardSprites.avatar.src = cardData[index].img;
 
   // Atualiza o texto do nome da carta no estado
-  estado.spritesCarta.nome.innerText = dadosCartas[index].nome;
+  state.cardSprites.name.innerText = cardData[index].name;
 
   // Atualiza o texto do tipo da carta no estado, adicionando o atributo
-  estado.spritesCarta.tipo.innerText = "Atributo: " + dadosCartas[index].tipo;
+  state.cardSprites.type.innerText = "Atributo: " + cardData[index].type;
 }
 
 // Função para desenhar cartas no campo
-async function desenharCartas(quantidadeCartas, ladoCampo) {
-  for (let i = 0; i < quantidadeCartas; i++) {
-    const idCartaAleatorio = await obterIdAleatorio();
-    const imagemCarta = await criarImagemCarta(idCartaAleatorio, ladoCampo);
+async function drawCards(cardNumbers, fieldSide) {
+  for (let i = 0; i < cardNumbers; i++) {
+    const randomIdCard = await getRandomId();
+    const cardImage = await createCardImage(randomIdCard, fieldSide);
 
-    document.getElementById(ladoCampo).appendChild(imagemCarta);
+    document.getElementById(fieldSide).appendChild(cardImage);
   }
 }
 
 // Função para redefinir o duelo
-async function resetarDuelo() {
+async function resetDuel() {
   // Reinicia os elementos visuais para um novo duelo
-  estado.spritesCarta.avatar.src = "";
-  estado.acoes.botao.style.display = "none";
+  state.cardSprites.avatar.src = "";
+  state.actions.button.style.display = "none";
 
-  estado.cartasCampo.jogador.style.display = "none";
-  estado.cartasCampo.computador.style.display = "none";
+  state.fieldCards.player.style.display = "none";
+  state.fieldCards.computer.style.display = "none";
 
   // Inicializa um novo duelo
-  inicializar();
+  init();
 }
 
 // Função para reproduzir áudio com tratamento de erro
-async function reproduzirAudio(status) {
+async function playAudio(status) {
   const audio = new Audio(`./src/assets/audios/${status}.wav`);
 
   try {
     audio.play();
-  } catch (erro) {
-    console.error("Erro ao reproduzir áudio:", erro.message);
+  } catch (error) {
+    console.error("Erro ao reproduzir áudio:", error.message);
   }
 }
 
 // Inicialização do jogo
-function inicializar() {
+function init() {
   // Configuração inicial para um novo duelo
-  ocultarImagensCampos(false);
+  hiddenCardsFieldsImages(false);
 
-  desenharCartas(5, ladosJogadores.jogador1);
-  desenharCartas(5, ladosJogadores.computador);
+  drawCards(5, playersSides.player1);
+  drawCards(5, playersSides.computer);
 
   const bgm = document.getElementById("bgm");
   bgm.play();
 }
 
 // Chama a função de inicialização
-inicializar();
+init();

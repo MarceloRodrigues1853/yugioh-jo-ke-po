@@ -157,10 +157,27 @@ a:hover {
 }
 
 .card {
-   transition: transform 0,2s;
+   transition: transform 0.2s;
 }
 
 .card:hover{
      transform: scale(1.2);
 }
+
+/* Media Query para dispositivos móveis e tablets */
+@media screen and (max-width: 767px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .container__left,
+    .container__right {
+        width: 100%;
+    }
+
+    .card-box {
+        height: 6rem;
+    }
+}
+
 
